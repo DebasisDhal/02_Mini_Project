@@ -1,5 +1,9 @@
 package in.ait.repo;
 
-public interface UserDtlsRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import in.ait.entity.UserDtlsEntity;
+
+public interface UserDtlsRepo extends JpaRepository<UserDtlsEntity, Integer>{
 
 }
