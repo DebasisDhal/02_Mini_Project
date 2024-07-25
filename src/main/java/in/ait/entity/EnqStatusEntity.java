@@ -11,7 +11,7 @@ import lombok.Data;
 @Table(name ="AIT_ENQURIRY_STATUS")
 @Data
 public class EnqStatusEntity {
-	
+
 	@Id
 	private Integer statusId;
 	private String statusName;

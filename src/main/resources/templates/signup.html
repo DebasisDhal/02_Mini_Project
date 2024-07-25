@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,7 +39,7 @@ label {
     color: #333;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],input[type="email"], input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -97,18 +97,21 @@ button:hover {
 <div class= "login">
 <div class="login-container">
         <img alt="" style="width: 200px; height: 80px; margin-left: 30px" src="images/JavaDS_Hub_Logo_Filled_Red_Circle.png">
+        
+        <p th:text="${succMsg}" style= "color: green"/>
+        <p th:text="${errMsg}" style= "color: red"/>
         <h5>Please account here</h5>
-        <form action="login.php" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+        <form th:action="@{/signup}" th:object="${user}" method="post">
+            <label>Username</label>
+            <input type="text" th:field="*{name}" required>
 
-            <label for="password">Email</label>
-            <input type="password" id="password" name="password" required>
+            <label>Email</label>
+            <input type="email" th:field="*{email}" required>
             
-            <label for="password">Phone</label>
-            <input type="password" id="password" name="password" required>
+            <label>Phone</label>
+            <input type="text" th:field="*{phno}" required>
             
-            <button type="submit">SIGN UP</button>
+            <button type="submit" vlaue="Sign Up">SIGN UP</button>
 
            <a href="unlock">unlock here</a>
             <div class="row">
