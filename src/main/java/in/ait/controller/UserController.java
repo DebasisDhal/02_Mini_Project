@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import in.ait.binding.SignUpForm;
+import in.ait.binding.SignupForm;
+import in.ait.binding.UnlockForm;
 import in.ait.service.UserService;
 
 @Controller
@@ -18,24 +20,22 @@ public class UserController {
 
 	@GetMapping("/signup")
 	public String signUpPage(Model model) {
-		model.addAttribute("user",new SignUpForm());
+		model.addAttribute("user",new SignupForm());
 		return "signup";
 	}
 
 	@PostMapping("/signup")
-    public String handleSingUp(@ModelAttribute("user") SignUpForm form, Model model) {
+    public String handleSingUp(@ModelAttribute("user") SignupForm form, Model model) {
 
-		boolean status = userService.signUp(form);
+		boolean status = userService.signup(form);
 
 		if(status) {
-			model.addAttribute("errMsg", "Problem occourd");
+			model.addAttribute("succMsg","Account created, Check your email");
 			
 		}else {
-			model.addAttribute("succMsg","Check your email");
-			
+			model.addAttribute("errMsg", "Choose a unique email");				
 		}
     	return "signup";
-
     }
 
 	@GetMapping("/login")
@@ -44,7 +44,17 @@ public class UserController {
 	}
 
 	@GetMapping("/unlock")
-	public String unlockPage() {
+	public String unlockPage(@RequestParam String email, Model model) {
+		UnlockForm unlockForm = new UnlockForm();
+		unlockForm.setEmail(email);
+		
+		model.addAttribute("unlock", unlockForm);
+		return "unlock";
+	}
+	
+	@PostMapping("/unlock")
+	public String unlockUserAccount(@ModelAttribute UnlockForm unlock) {
+		System.out.println(unlock);
 		return "unlock";
 	}
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang ="ln" xmlns:th="www.thymleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,19 +98,22 @@ button:hover {
 <div class="login-container">
         <img alt="" style="width: 200px; height: 80px; margin-left: 30px" src="images/JavaDS_Hub_Logo_Filled_Red_Circle.png">
         <h5>Unlock your account here</h5>
-        <form action="login.php" method="post">
+        <form th:action="@{/unlock}" th:object="${unlock}" method="POST">
+        
+            <h6>Your Email: <p th:text = "${unlock.email}"></h6>
+            <input type="hidden"  th:field="${unlock.email}"/>
+        
             <label for="username">Temporary Pasword</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="password1" th:field="*{tempPwd}" name="Tpassword" required>
 
             <label for="password">New Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password2" name="Npassword" required>
             
             <label for="password">Conform Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password3" name="Cpassword" required>
             
             <button type="submit">UNLOCK</button>
 
-          
             <div class="row">
             <h6>Already unlocked?</h6>
             <a href="login" class="btn btn-danger">Login here</a>

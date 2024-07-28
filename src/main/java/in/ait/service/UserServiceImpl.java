@@ -1,10 +1,10 @@
-package in.ait.service;
+ package in.ait.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import in.ait.binding.SignUpForm;
+import in.ait.binding.SignupForm;
 import in.ait.entity.UserDtlsEntity;
 import in.ait.repo.UserDtlsRepo;
 import in.ait.util.EmailUtils;
@@ -20,7 +20,16 @@ public class UserServiceImpl implements UserService {
     private UserDtlsRepo userDtlsRepo;
 
 	@Override
-	public boolean signUp(SignUpForm form) {
+	public boolean signup(SignupForm form) {
+		
+		
+		UserDtlsEntity user = userDtlsRepo.findByEmail(form.getEmail());
+		
+		if(user != null) {
+			return false;
+		}
+		
+
 
 		// TODO: copy data from binding obj to entity obj
 
@@ -50,11 +59,11 @@ public class UserServiceImpl implements UserService {
 		body.append("<h1>Use below temporary password to unlock your  account </h1>");
 		body.append("Temporary pwd: "+ tempPwd);
 		body.append("</br>");
-		body.append("<a href= \"http://localhost:8080/unlock?email="+to+"\">Click here to unlock your account");
+		body.append("<a href= \"http://localhost:8081/unlock?email="+to+"\">Click here to unlock your account");
 
 		emailUtils.sendEmail(to, subject, body.toString());
 
-		return false;
+		return true;
 	}
 
 
