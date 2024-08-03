@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import in.ait.binding.LoginForm;
 import in.ait.binding.SignupForm;
 import in.ait.binding.UnlockForm;
 import in.ait.service.UserService;
@@ -38,11 +39,6 @@ public class UserController {
     	return "signup";
     }
 
-	@GetMapping("/login")
-	public String loginPage() {
-		return "login";
-	}
-
 	@GetMapping("/unlock")
 	public String unlockPage(@RequestParam String email, Model model) {
 		UnlockForm unlockForm = new UnlockForm();
@@ -53,9 +49,39 @@ public class UserController {
 	}
 	
 	@PostMapping("/unlock")
-	public String unlockUserAccount(@ModelAttribute UnlockForm unlock) {
+	public String unlockUserAccount(@ModelAttribute("unlock") UnlockForm unlock, Model model) {
 		System.out.println(unlock);
+		
+		if(unlock.getNewPwd().equals(unlock.getConfirmPwd())) {
+			boolean status = userService.unlockAccount(unlock);
+			
+			if(status) {
+				model.addAttribute("succMsg", "Your account is unlocked");
+			}else {
+				model.addAttribute("errMsg", "Given temporary Pwd is wrong, check your email");
+			}	
+		}else {
+			model.addAttribute("errMsg", "New pwd and conform pwd should be same");
+		}
 		return "unlock";
+	}
+	
+	@GetMapping("/login")
+	public String loginPage(Model model) {
+		model.addAttribute("loginForm",new LoginForm());
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model) {
+		
+		String status = userService.login(loginForm);
+		if(status.contains("success")){
+			return "redirect:/dashboard";
+		}
+		
+		model.addAttribute("errMsg", status);
+		return "login";
 	}
 
 	@GetMapping("/forgotPwd")

@@ -98,7 +98,13 @@ button:hover {
 <div class="login-container">
         <img alt="" style="width: 200px; height: 80px; margin-left: 30px" src="images/JavaDS_Hub_Logo_Filled_Red_Circle.png">
         <h5>Unlock your account here</h5>
+        
+        <p th:text="${errMsg}" class="text-danger"/>
+        <p th:text="${succMsg}" class="text-success"/>
+        
         <form th:action="@{/unlock}" th:object="${unlock}" method="POST">
+        
+        
         
             <h6>Your Email: <p th:text = "${unlock.email}"></h6>
             <input type="hidden"  th:field="${unlock.email}"/>
@@ -107,10 +113,10 @@ button:hover {
             <input type="text" id="password1" th:field="*{tempPwd}" name="Tpassword" required>
 
             <label for="password">New Password</label>
-            <input type="password" id="password2" name="Npassword" required>
+            <input type="password" id="password2" th:field="*{newPwd}" required>
             
             <label for="password">Conform Password</label>
-            <input type="password" id="password3" name="Cpassword" required>
+            <input type="password" id="password3" th:field="*{confirmPwd}" required>
             
             <button type="submit">UNLOCK</button>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ln" xmlns:th="www.thymleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,12 +98,15 @@ button:hover {
 <div class="login-container">
         <img alt="" style="width: 200px; height: 80px; margin-left: 30px" src="images/JavaDS_Hub_Logo_Filled_Red_Circle.png">
         <h5>Please login to your account</h5>
-        <form action="login.php" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+        
+        <p th:text="${errMsg}" class="text-danger"/>
+        
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
+            <label for="username">Email</label>
+            <input type="text" id="username" th:field="*{email}" name="username" required>
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" th:field="*{password}" name="password" required>
 
             <button type="submit">Login</button>
 

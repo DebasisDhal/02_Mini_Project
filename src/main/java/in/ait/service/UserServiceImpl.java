@@ -4,7 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.ait.binding.LoginForm;
 import in.ait.binding.SignupForm;
+import in.ait.binding.UnlockForm;
 import in.ait.entity.UserDtlsEntity;
 import in.ait.repo.UserDtlsRepo;
 import in.ait.util.EmailUtils;
@@ -18,6 +20,40 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private UserDtlsRepo userDtlsRepo;
+	
+	
+	@Override
+	public String login(LoginForm form) {
+		
+		UserDtlsEntity entity = 
+				userDtlsRepo.findByEmailAndPwd(form.getEmail(), form.getPassword());
+		
+		if(entity == null) {
+			return "Invalid credential";
+		}
+		if(entity.getAccStatus().equals("LOCKED")) {
+			return "Your account is Locked";
+		}
+		return "success";
+	}
+	
+	
+	@Override
+	public boolean unlockAccount(UnlockForm form) {
+		
+		UserDtlsEntity entity = userDtlsRepo.findByEmail(form.getEmail());
+		
+		if(entity.getPwd().equals(form.getTempPwd())) {
+			entity.setPwd(form.getNewPwd());
+			entity.setAccStatus("UNLOCKED");
+			userDtlsRepo.save(entity);
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	
 
 	@Override
 	public boolean signup(SignupForm form) {
@@ -29,7 +65,6 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		
-
 
 		// TODO: copy data from binding obj to entity obj
 
@@ -65,6 +100,14 @@ public class UserServiceImpl implements UserService {
 
 		return true;
 	}
+
+
+
+
+
+
+
+
 
 
 
