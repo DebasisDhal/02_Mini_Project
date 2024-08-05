@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html >
+<html lang="ln" xmlns:th="www.thymleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,9 +98,14 @@ button:hover {
 <div class="login-container">
         <img alt="" style="width: 200px; height: 80px; margin-left: 30px" src="images/JavaDS_Hub_Logo_Filled_Red_Circle.png">
         <h5>Recover your password</h5>
-        <form action="login.php" method="post">
-            <label for="username">Email</label>
-            <input type="text" id="username" name="username" required>
+        
+        <p th:text="${succMsg}" class="text-success"/>
+         <p th:text="${errMsg}" class="text-danger"/>
+        
+        <form th:action="@{/forgotPwd}" method="post">
+        
+            <label for="email">Email</label>
+            <input type="text" id="username" name="email" required>
 
 
             <button type="submit">Submit</button>

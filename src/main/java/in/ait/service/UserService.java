@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public String login(LoginForm form);
 
-	//public String forgtPwd(String email);
+	public boolean forgtPwd(String email);
 
 
 

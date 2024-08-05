@@ -92,12 +92,34 @@ public class UserServiceImpl implements UserService {
 		StringBuffer body = new StringBuffer();
 
 		body.append("<h1>Use below temporary password to unlock your  account </h1>");
-		body.append("Temporary pwd: "+ tempPwd);
+		body.append("Temporary pwd::  "+ tempPwd);
 		body.append("</br>");
 		body.append("<a href= \"http://localhost:8081/unlock?email="+to+"\">Click here to unlock your account");
 
 		emailUtils.sendEmail(to, subject, body.toString());
 
+		return true;
+	}
+
+
+	@Override
+	public boolean forgtPwd(String email) {
+		
+		//check the reocrd is availble or not in DB
+		UserDtlsEntity entity = userDtlsRepo.findByEmail(email);
+		
+		//if record not available in db
+		if(entity == null) {
+			return false;
+		}
+		
+		//If record is available send pwd into email and send sucess
+		
+		String Subject = "Recovery password";
+		String body = "your pwd::  "+entity.getPwd();
+		
+		emailUtils.sendEmail(email, Subject, body);
+		
 		return true;
 	}
 
