@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang= "ln" xmlns:th="www.thymleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@
           <a class="nav-link" href="enquires">ViewEnquirys</a>
         </li>
       </ul>  
-        <a href="/" class="btn btn-danger">Logout</a>
+        <a href="logout" class="btn btn-danger">Logout</a>
     </div>
   </div>
 </nav>
@@ -37,9 +37,9 @@
   <img src="images/lady.png" class="card-img-top" alt="...">
   <div class="card-body" style="text-align:center">
     <h5 class="card-title">Your Performance</h5>
-    <h6>Total Enquires: 256</h6>
-    <h6 style="color: green">Enrolled: 84</h6>
-    <h6 style="color: red">Lost: 126</h6>
+    <h6>Total Enquires: </h6> <p th:text="${dashboardData.totalEnquriesCnt}"/>
+    <h6 style="color: green">Enrolled: </h6> <p th:text="${dashboardData.enrolledCnt}"/>
+    <h6 style="color: red">Lost: </h6> <p th:text="${dashboardData.lostCnt}"/>
     
   </div>
 </div>

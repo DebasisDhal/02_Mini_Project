@@ -11,6 +11,7 @@ import in.ait.entity.UserDtlsEntity;
 import in.ait.repo.UserDtlsRepo;
 import in.ait.util.EmailUtils;
 import in.ait.util.PwdUtils;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private UserDtlsRepo userDtlsRepo;
+	
+	@Autowired
+	private HttpSession httpSession;
 	
 	
 	@Override
@@ -34,6 +38,10 @@ public class UserServiceImpl implements UserService {
 		if(entity.getAccStatus().equals("LOCKED")) {
 			return "Your account is Locked";
 		}
+		
+		//create a session store user data in session
+		httpSession.setAttribute("userId", entity.getUserId());
+		
 		return "success";
 	}
 	
