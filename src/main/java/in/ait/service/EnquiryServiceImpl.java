@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ import in.ait.entity.StudentEnqEntity;
 import in.ait.entity.UserDtlsEntity;
 import in.ait.repo.CourseRepo;
 import in.ait.repo.EnqStatusRepo;
+import in.ait.repo.StudentEnqRepo;
 import in.ait.repo.UserDtlsRepo;
+import jakarta.servlet.http.HttpSession;
 
 
 @Service
@@ -27,10 +30,16 @@ public class EnquiryServiceImpl implements EnquiryService {
 	private UserDtlsRepo userDtlsRepo;
 	
 	@Autowired
+	private StudentEnqRepo enqRepo;
+	
+	@Autowired
 	private CourseRepo courseRepo;
 	
 	@Autowired
 	private EnqStatusRepo statusRepo;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	public DashboardResponse getDashboardData(Integer userId) {
@@ -46,7 +55,7 @@ public class EnquiryServiceImpl implements EnquiryService {
     	   Integer totalCnt = enquiries.size();
     	   
     	   Integer enrolledCnt = enquiries.stream()
-    			              .filter(e -> e.getEnqStatus().equals("ENROLLED"))
+    			              .filter(e -> e.getEnqStatus().equals("Enrolled"))
     			              .collect(Collectors.toList()).size();
     	   
     	   Integer lostCnt = enquiries.stream()
@@ -89,8 +98,18 @@ public class EnquiryServiceImpl implements EnquiryService {
 
 	@Override
 	public boolean saveEnquriry(EnquiryForm form) {
-		// TODO Auto-generated method stub
-		return false;
+
+		StudentEnqEntity enqEntity = new StudentEnqEntity();
+		BeanUtils.copyProperties(form, enqEntity);
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		UserDtlsEntity userEntity = userDtlsRepo.findById(userId).get();
+		enqEntity.setUser(userEntity);
+		
+		enqRepo.save(enqEntity);
+		
+		return true;
 	}
 	
 

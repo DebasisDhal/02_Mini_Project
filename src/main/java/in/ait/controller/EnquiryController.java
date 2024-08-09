@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import in.ait.binding.DashboardResponse;
 import in.ait.binding.EnquiryForm;
@@ -39,6 +41,26 @@ public class EnquiryController {
 		
 		return "dashboard";
 	}
+	
+	
+	@PostMapping("/addEnq")
+	public String addEnquiryPage(@ModelAttribute("formObj") EnquiryForm formObj, Model model) {
+		
+		System.out.println(formObj);
+		
+		boolean status = enquiryService.saveEnquriry(formObj);
+		
+		if(status) {
+			model.addAttribute("succMsg", "Enquiry Added");
+		}else {
+			model.addAttribute("errMsg", "Problem Occured");
+		}
+		
+		return"add-enquairy";
+	}
+	
+	
+	
 
 	@GetMapping("/enquire")
 	public String addEnquiryPage(Model model) {
@@ -50,13 +72,13 @@ public class EnquiryController {
 		List<String> enqStatuses = enquiryService.getEnqStatus();
 		
 		//create binding class object
-		EnquiryForm fromObj = new EnquiryForm();
+		EnquiryForm formObj = new EnquiryForm();
 		
 		//send data in model object
 		
 		model.addAttribute("courseName",courses);
 		model.addAttribute("enqStatusNames",enqStatuses);
-		model.addAttribute("fromObj",fromObj);
+		model.addAttribute("formObj",formObj);
 		
 		return "add-enquairy";
 	}
