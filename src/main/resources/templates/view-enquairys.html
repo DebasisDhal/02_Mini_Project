@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang ="ln" xmlns:th="www.thymleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,17 +80,19 @@
       <th scope="col">Edit</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>spring</td>
-      <td>5841239764</td>
-      <td>05/12/2023</td>
-      <td>Enrolled</td>
-      <td><button class="sucess">Edit</button></td>
+  <tbody id="table-body">
+    <tr th:each="enq: ${enquiries}">
+  
+      <td th:text="${enqStat.index} + 1 "></td>
+      <td th:text="${enq.studentName}"></td>
+      <td th:text="${enq.courseName}"></td>
+      <td th:text="${enq.studentPhno}"></td>
+      <td th:text="${enq.dateCreated}"></td>
+      <td th:text="${enq.enqStatus}"></td>
+      <td th:text="${enq.classMode}"></td> 
+      <td><a th:href="@{/edit}">Edit</a></td>
     </tr>
-        <tr>
+ <tr>
       <th scope="row">2</th>
       <td>Thornton</td>
       <td>spring</td>

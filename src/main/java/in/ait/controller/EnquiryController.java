@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import in.ait.binding.DashboardResponse;
 import in.ait.binding.EnquiryForm;
+import in.ait.entity.StudentEnqEntity;
 import in.ait.service.EnquiryService;
 import jakarta.mail.Session;
 import jakarta.servlet.http.HttpSession;
@@ -84,8 +85,16 @@ public class EnquiryController {
 	}
 
 	@GetMapping("/enquires")
-	public String viewEnquiryPage() {
+	public String viewEnquiryPage(Model model) {
+	//	initForm(model);
+		List<StudentEnqEntity> enquires = enquiryService.getEnquiries();
+				model.addAttribute("enquires", enquires);
+				
 		return "view-enquairys";
 	}
+
+
+
+
 
 }

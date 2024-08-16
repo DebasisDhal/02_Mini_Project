@@ -5,6 +5,7 @@ import java.util.List;
 import in.ait.binding.DashboardResponse;
 import in.ait.binding.EnquiryForm;
 import in.ait.binding.EnquirySearchCriteria;
+import in.ait.entity.StudentEnqEntity;
 
 public interface EnquiryService {
 
@@ -15,6 +16,9 @@ public interface EnquiryService {
 	public List<String> getEnqStatus();
 	
 	public boolean saveEnquriry(EnquiryForm form);
+	
+	public List<StudentEnqEntity> getEnquiries();
+	
 //
 //	public String upsertEnquiry(EnquiryForm form);
 //
